@@ -16,5 +16,12 @@ namespace ServiceContracts
         CountryResponse AddCountry(CountryAddRequest? countryAddRequest);
 
         List<CountryResponse> GetAllCountries();
+
+        /// <summary>
+        /// Returns a country object based on the given country id
+        /// </summary>
+        /// <param name="countryId">CountryId (guid) to search</param>
+        /// <returns>Matching Country as CountryResponse Object</returns>
+        CountryResponse? GetCountryById(Guid? countryId);
     }
 }
