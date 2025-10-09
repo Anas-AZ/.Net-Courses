@@ -51,7 +51,7 @@ namespace Services
 
         public List<PersonResponse> GetAllPersons()
         {
-            throw new NotImplementedException();
+            return _persons.Select(p=>p.ToPersonResponse()).ToList();
         }
 
         public PersonResponse? GetPersonByPersonId(Guid? personId)
@@ -59,7 +59,7 @@ namespace Services
             if (personId == null)
                 return null;
 
-            Person person = _persons.FirstOrDefault(p => p.PersonId == personId);
+            Person? person = _persons.FirstOrDefault(p => p.PersonId == personId);
 
             if (person == null)
                 return null;
