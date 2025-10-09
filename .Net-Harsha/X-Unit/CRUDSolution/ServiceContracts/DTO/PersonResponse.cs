@@ -50,6 +50,11 @@ namespace ServiceContracts.DTO
         {
             return base.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"Person ID: {PersonId}, Person Name: {PersonName}, Email: {Email}, Date of Birth: {DateOfBirth?.ToString("dd MMM yyyy")}, Gender: {Gender}, Country ID: {CountryId}, Country: {Country}, Address: {Address}, Receive News Letters: {ReceiveNewsLetters}";
+        }
     }
 
     public static class PersonExtensions
