@@ -89,7 +89,7 @@ namespace Services
             if (person == null)
                 return null;
 
-            return person.ToPersonResponse();
+            return ConvertPersonToPersonResponse(person);
         }
 
         public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
@@ -131,7 +131,7 @@ namespace Services
 
                 case nameof(PersonResponse.Gender):
                     matchingPersons = allPersons.Where(p =>
-                    (!string.IsNullOrEmpty(p.Gender) ? p.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
+                    (!string.IsNullOrEmpty(p.Gender) ? p.Gender.Equals(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
                     break;
 
                 default:
@@ -213,7 +213,7 @@ namespace Services
             matchingPerson.Address = personUpdateRequest.Address;
             matchingPerson.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
 
-            return matchingPerson.ToPersonResponse();
+            return ConvertPersonToPersonResponse(matchingPerson);
         }
         public bool DeletePerson(Guid? personID)
         {
