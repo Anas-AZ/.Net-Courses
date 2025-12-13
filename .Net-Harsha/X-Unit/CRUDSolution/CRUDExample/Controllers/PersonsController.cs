@@ -48,8 +48,8 @@ namespace CRUDExample.Controllers
         public IActionResult Create()
         {
             List<CountryResponse> countries = _countriesService.GetAllCountries();
-            ViewBag.Countries = countries.Select(temp=>
-            new SelectListItem() { Text=temp.CountryName, Value=temp.CountryId.ToString()});
+            ViewBag.Countries = countries.Select(temp =>
+            new SelectListItem() { Text = temp.CountryName, Value = temp.CountryId.ToString() });
 
             return View(); //Views/Persons/Create.cshtml
         }
@@ -82,7 +82,7 @@ namespace CRUDExample.Controllers
         public IActionResult Edit(Guid personId)
         {
             PersonResponse? personResponse = _personsService.GetPersonByPersonId(personId);
-            if(personResponse == null)
+            if (personResponse == null)
             {
                 return RedirectToAction("Index");
             }
@@ -119,8 +119,31 @@ namespace CRUDExample.Controllers
                 new SelectListItem() { Text = temp.CountryName, Value = temp.CountryId.ToString() });
 
                 ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                return View();
+                return View(personResponse.ToPersonUpdateRequest());
             }
         }
+        
+        [Route("[action]/{personId}")]
+        [HttpGet]
+        public IActionResult Delete(Guid? personId)
+        {
+            PersonResponse? personResponse = _personsService.GetPersonByPersonId(personId);
+            if (personResponse == null)
+                return RedirectToAction("Index");
+
+            return View(personResponse);
         }
+
+        [Route("[action]/{personID}")]
+        [HttpPost]
+        public IActionResult Delete(PersonUpdateRequest personUpdateResult)
+        {
+            PersonResponse? personResponse = _personsService.GetPersonByPersonId(personUpdateResult.PersonId);
+            if (personResponse == null)
+                return RedirectToAction("Index");
+
+            _personsService.DeletePerson(personUpdateResult.PersonId);
+            return RedirectToAction("Index");
+        }
+    }
 }
